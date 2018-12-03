@@ -15,3 +15,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http-testkit" % "10.1.5" % Test,
   "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.18" % Test
 )
+
+enablePlugins(JavaAppPackaging)
+
+dockerBaseImage := "anapsix/alpine-java"
+dockerExposedPorts ++= Seq(8000)
