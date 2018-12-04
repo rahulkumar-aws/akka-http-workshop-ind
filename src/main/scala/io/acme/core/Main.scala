@@ -3,6 +3,8 @@ package io.acme.core
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
+import io.acme.models.Todo
+import io.acme.repository.InMemoryTodoRepository
 
 import scala.concurrent.Await
 import scala.util.{Failure, Success}
@@ -18,13 +20,16 @@ object Main extends App{
 
   import system.dispatcher
 
-  import akka.http.scaladsl.server.Directives._
-  def route = path("hello") {
-    get {
-      complete("Hello, World")
-    }
-  }
-  val binding = Http().bindAndHandle(route, host, port)
+  val todoRepository = new InMemoryTodoRepository(Seq(
+    Todo("1", "Buy egg","Buy a dozen", false),
+    Todo("2", "Buy Milk","low fat milk", false),
+    Todo("3", "Clean room","clean living room & hall", false),
+    Todo("4", "Post mail","Add ticket of $5", false),
+    Todo("5", "Feed Fish","Only put 10-20 amount", false)
+  ))
+  val router = new TodoRouter(todoRepository)
+  val server = new Server(router, host, port)
+  val binding = server.bind()
 
   binding.onComplete{
     case Success(_) => println("Succsess")
