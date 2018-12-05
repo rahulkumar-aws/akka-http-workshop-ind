@@ -22,9 +22,9 @@ object Main extends App{
 
   val todoRepository = new InMemoryTodoRepository(Seq(
     Todo("1", "Buy egg","Buy a dozen", false),
-    Todo("2", "Buy Milk","low fat milk", false),
+    Todo("2", "Buy Milk","low fat milk", true),
     Todo("3", "Clean room","clean living room & hall", false),
-    Todo("4", "Post mail","Add ticket of $5", false),
+    Todo("4", "Post mail","Add ticket of $5", true),
     Todo("5", "Feed Fish","Only put 10-20 amount", false)
   ))
   val router = new TodoRouter(todoRepository)
